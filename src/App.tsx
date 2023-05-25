@@ -4,6 +4,8 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { faker } from "@faker-js/faker";
 import RestartButton from "./components/RestartButton";
+import UserTypings from "./components/UserTypings";
+import Results from "./components/Results";
 
 const words = faker.random.words(10);
 
@@ -13,18 +15,24 @@ function App() {
   return (
     <>
       <CountdownTimer timeLeft={30} />
-      <GenerateWords words={words} />
-      <RestartButton />
+      <GeneratedWords key={words} words={words} />
+      {/* User typed characters will be overlayed over the generated words */}
+      <Results errors={10} accuracyPercentage={100} total={200} />
+      <RestartButton onRestart={() => null} />
     </>
   );
 }
 
-const GenerateWords = ({ words }: { words: string }) => {
+const GeneratedWords = ({ words }: { words: string }) => {
   return <div>{words}</div>;
 };
 
+const WordsContainer = ({ children }: { children: React.ReactNode }) => {
+  return <div className="words-container">{children}</div>;
+};
+
 const CountdownTimer = ({ timeLeft }: { timeLeft: number }) => {
-  return <h2 className="text-primary-400 font-medium">Time: {timeLeft}</h2>;
+  return <h2>Time: {timeLeft}</h2>;
 };
 
 export default App;

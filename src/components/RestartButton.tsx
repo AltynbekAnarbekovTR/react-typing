@@ -3,10 +3,10 @@ import { MdRefresh } from "react-icons/md";
 
 const RestartButton = ({
   onRestart: handleRestart,
-  className = "",
-}: {
+}: //   className = "",
+{
   onRestart: () => void;
-  className?: string;
+  //   className?: string;
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -19,7 +19,7 @@ const RestartButton = ({
     <button
       tabIndex={-1} // to prevent focus
       ref={buttonRef}
-      className={`block rounded px-8 py-2 hover:bg-slate-700/50  ${className}`}
+      className={`restart-button`}
       onClick={handleClick}
     >
       <MdRefresh className="w-6 h-6" />
