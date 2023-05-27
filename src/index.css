@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --yellow: rgb(250 204 21);
 }
 
 a {
@@ -108,7 +109,7 @@ button:focus-visible {
   margin-top: 0.875rem;
   flex-direction: column;
   align-items: center;
-  color: rgb(250 204 21);
+  color: var(--yellow);
 }
 
 .results {
@@ -120,6 +121,37 @@ button:focus-visible {
 
 .errors {
   color: red;
+}
+
+.yellow {
+  color: var(--yellow);
+}
+
+.red {
+  color: #ef4444;
+}
+
+.light-red {
+  background-color: rgba(247, 55, 55, 0.5);
+}
+
+.user-typings {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.generated-words {
+  color: rgb(100 116 139);
+}
+
+.caret {
+  display: inline-block;
+  width: 0.125rem;
+  background-color: var(--yellow);
+  height: 1.75rem;
 }
 
 @media (prefers-color-scheme: light) {

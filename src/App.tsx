@@ -6,25 +6,36 @@ import { faker } from "@faker-js/faker";
 import RestartButton from "./components/RestartButton";
 import UserTypings from "./components/UserTypings";
 import Results from "./components/Results";
+import useEngine from "./hooks/useEngine";
+import { calculateAccuracyPercentage } from "./utils/helpers";
 
-const words = faker.random.words(10);
+// const words = faker.random.words(10);
 
 function App() {
   const [count, setCount] = useState(0);
-
+  const { state, words, timePassed, typed, errors, restart, totalTyped } =
+    useEngine();
   return (
     <>
-      <CountdownTimer timeLeft={30} />
-      <GeneratedWords key={words} words={words} />
+      <CountdownTimer timeLeft={timePassed} />
+      <WordsContainer>
+        <GeneratedWords words={words} />
+        <UserTypings userInput={typed} words={words} />
+      </WordsContainer>
+
       {/* User typed characters will be overlayed over the generated words */}
-      <Results errors={10} accuracyPercentage={100} total={200} />
-      <RestartButton onRestart={() => null} />
+      <Results
+        errors={errors}
+        accuracyPercentage={calculateAccuracyPercentage(errors, totalTyped)}
+        total={totalTyped}
+      />
+      <RestartButton onRestart={restart} />
     </>
   );
 }
 
 const GeneratedWords = ({ words }: { words: string }) => {
-  return <div>{words}</div>;
+  return <div className="generated-words">{words}</div>;
 };
 
 const WordsContainer = ({ children }: { children: React.ReactNode }) => {
