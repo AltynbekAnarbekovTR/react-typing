@@ -6,11 +6,13 @@ const Results = ({
   accuracyPercentage,
   total,
   className = "",
+  speed,
 }: {
   errors: number;
   accuracyPercentage: number;
   total: number;
   className?: string;
+  speed: number;
 }) => {
   return (
     <ul className="results-list">
@@ -18,6 +20,7 @@ const Results = ({
       <li>Accuracy: {formatPercentage(accuracyPercentage)}</li>
       <li className="errors">Errors: {errors}</li>
       <li>Typed: {total}</li>
+      <li>Speed: {speed}</li>
     </ul>
   );
 };

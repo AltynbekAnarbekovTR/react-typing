@@ -20,6 +20,7 @@ const useEngine = () => {
   );
 
   const [errors, setErrors] = useState(0);
+  const [speed, setSpeed] = useState(0);
   console.log(errors);
 
   const isStarting = state === "start" && cursor > 0;
@@ -29,6 +30,13 @@ const useEngine = () => {
     const wordsReached = words.substring(0, cursor);
     setErrors(countErrors(typed, wordsReached));
   }, [typed, words, cursor]);
+
+  const countSpeed = useCallback(() => {
+    const speed = (typed.length / timePassed) * 60;
+    console.log("timePassed", timePassed);
+
+    setSpeed(Math.ceil(speed));
+  }, [typed, timePassed]);
 
   const restart = useCallback(() => {
     // debug("restarting...");
@@ -74,9 +82,19 @@ const useEngine = () => {
 
   useEffect(() => {
     sumErrors();
-  }, [typed]);
+    countSpeed();
+  }, [typed, timePassed]);
 
-  return { state, words, timePassed, typed, errors, totalTyped, restart };
+  return {
+    state,
+    words,
+    timePassed,
+    typed,
+    errors,
+    totalTyped,
+    restart,
+    speed,
+  };
 };
 
 export default useEngine;

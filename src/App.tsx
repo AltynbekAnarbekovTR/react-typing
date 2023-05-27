@@ -13,8 +13,16 @@ import { calculateAccuracyPercentage } from "./utils/helpers";
 
 function App() {
   const [count, setCount] = useState(0);
-  const { state, words, timePassed, typed, errors, restart, totalTyped } =
-    useEngine();
+  const {
+    state,
+    words,
+    timePassed,
+    typed,
+    errors,
+    restart,
+    totalTyped,
+    speed,
+  } = useEngine();
   return (
     <>
       <CountdownTimer timeLeft={timePassed} />
@@ -28,6 +36,7 @@ function App() {
         errors={errors}
         accuracyPercentage={calculateAccuracyPercentage(errors, totalTyped)}
         total={totalTyped}
+        speed={speed}
       />
       <RestartButton onRestart={restart} />
     </>
