@@ -4,6 +4,8 @@ export const formatPercentage = (percentage: number) => {
 
 export const countErrors = (acutal: string, expected: string) => {
   const expectedCharacters = expected.split("");
+  console.log("acutal: ", acutal);
+  console.log("expected: ", expected);
 
   return expectedCharacters.reduce((errors, expectedCharacter, i) => {
     if (acutal[i] !== expectedCharacter) {

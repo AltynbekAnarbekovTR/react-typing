@@ -8,11 +8,12 @@ import { clear } from "console";
 export type State = "start" | "run" | "finish";
 
 const NUMBER_OF_WORDS = 12;
-const COUNTDOWN_SECONDS = 5;
+const COUNTDOWN_SECONDS = 0;
 
 const useEngine = () => {
   const [state, setState] = useState<State>("start");
-  const { words, updateWords } = useWords(NUMBER_OF_WORDS);
+  const { words, updateWords } = useWords();
+  console.log("useEngine")
   const { timePassed, startCountdown, resetCountdown } =
     useCountdownTimer(COUNTDOWN_SECONDS);
   const { typed, cursor, clearTyped, resetTotalTyped, totalTyped } = useTypings(
@@ -32,10 +33,12 @@ const useEngine = () => {
   }, [typed, words, cursor]);
 
   const countSpeed = useCallback(() => {
-    const speed = (typed.length / timePassed) * 60;
-    console.log("timePassed", timePassed);
+    if (state === "run") {
+      const speed = (typed.length / timePassed) * 60;
+      console.log("timePassed", timePassed);
 
-    setSpeed(Math.ceil(speed));
+      setSpeed(Math.ceil(speed));
+    }
   }, [typed, timePassed]);
 
   const restart = useCallback(() => {

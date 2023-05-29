@@ -5011,7 +5011,9 @@ ul.list-inside ul {
   margin-top: 2px;
   padding: 0;
   width: 157px;
-  background: url(/static/i/logo_ua.webp) left top/100% auto;
+  /* background: url(/static/i/logo_ua.webp) left top/100% auto; */
+  background: url(../img/logo_ua.webp) left top/100% auto;
+
 }
 
 @media (-webkit-min-device-pixel-ratio: 2),
