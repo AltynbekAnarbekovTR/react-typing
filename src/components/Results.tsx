@@ -15,13 +15,29 @@ const Results = ({
   speed: number;
 }) => {
   return (
-    <ul className="results-list">
-      <li className="results">Results</li>
-      <li>Accuracy: {formatPercentage(accuracyPercentage)}</li>
-      <li className="errors">Errors: {errors}</li>
-      <li>Typed: {total}</li>
-      <li>Speed: {speed}</li>
-    </ul>
+    <div className="results">
+      <h2>Results</h2>
+      <ul className="results-list">
+        <li>
+          <div className="result-value">
+            {formatPercentage(accuracyPercentage)}
+          </div>{" "}
+          <div>Accuracy</div>
+        </li>
+        <li>
+          <div className="result-value">{errors}</div>
+          <div>Errors</div>
+        </li>
+        <li>
+          <div className="result-value"> {total}</div>
+          <div>Typed</div>
+        </li>
+        <li>
+          <div className="result-value">{speed}</div>
+          <div>words/min</div>
+        </li>
+      </ul>
+    </div>
   );
 };
 

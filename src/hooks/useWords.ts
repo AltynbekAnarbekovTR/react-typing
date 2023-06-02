@@ -32,7 +32,7 @@ const useWords = () => {
 
     // if (response.ok) {
     const words = await response.json();
-    console.log("bacon words: ", words);
+    // console.log("bacon words: ", words);
     setWords(words[0]);
     // } else {
     // throw new Error("An error occurred while fetching data from the API.");

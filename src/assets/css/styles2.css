@@ -1,0 +1,25 @@
+.red {
+  color: red;
+}
+
+.typed {
+  color: green;
+}
+
+.current {
+  background-color: green;
+  color: white;
+}
+
+.wrong {
+  background-color: red;
+  color: white;
+}
+
+.blue {
+  background-color: lightblue;
+}
+
+div {
+  white-space: pre-wrap;
+}
