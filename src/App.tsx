@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+// import reactLogo from "./assets/react.svg";
+// import viteLogo from "/vite.svg";
 import "./App.css";
 import Results from "./components/Results";
+import StartModal from "./components/Modal";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Row, Col, Card, Container } from "react-bootstrap";
 
 function App() {
   const [words, setWords] = useState<string>("");
@@ -14,6 +17,7 @@ function App() {
   const [state, setState] = useState("start");
   const [speed, setSpeed] = useState(0);
   const [accuracy, setAccuracy] = useState("0%");
+  const [showModal, setShowModal] = useState(true);
 
   const timerRef = useRef<NodeJS.Timer | null>(null);
   const remaining = words.substring(cursor);
@@ -21,6 +25,12 @@ function App() {
   const typed = words.substring(0, cursor);
 
   const isStarting = state === "start" && cursor > 0;
+  const results = [
+    { title: "errors", value: errors },
+    { title: "characters", value: totalTyped },
+    { title: "chars/min", value: speed },
+    { title: "accuracy", value: accuracy },
+  ];
   // console.log({
   //   state: state,
   //   remaining: remaining,
@@ -40,8 +50,6 @@ function App() {
     }
     const englishCharacters = /^[A-Za-z0-9.,\s]+$/;
     if (!isKeyboardCodeAllowed(event.code)) {
-      console.log("Her");
-
       return;
     } else if (!englishCharacters.test(key)) {
       console.log("Please use english");
@@ -87,6 +95,12 @@ function App() {
     setAccuracy(accuracy + "%");
   };
 
+  // const startTimer = (event: KeyboardEvent) => {
+  //   if (timePassed === 0 && isKeyboardCodeAllowed(event.code)) {
+  //     startCountdown();
+  //   }
+  // };
+
   useEffect(() => {
     const fetchWords = async () => {
       const response = await fetch(
@@ -105,16 +119,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (state === "run") {
+    if (state === "run" && totalTyped > 0) {
       calcSpeed();
       calcAccuracy();
     }
   }, [timePassed, typed]);
 
   useEffect(() => {
-    if (isStarting) {
+    if (isStarting || (errors > 0 && timePassed === 0)) {
       setState("run");
-      startCountdown();
+      if (state !== "run") {
+        startCountdown();
+      }
     }
   }, [isStarting, startCountdown, cursor, typed]);
 
@@ -124,38 +140,82 @@ function App() {
     return () => window.removeEventListener("keydown", keydownHandler);
   }, [keydownHandler]);
 
+  // useEffect(() => {
+  //   window.addEventListener("keydown", startTimer);
+
+  //   return () => window.removeEventListener("keydown", startTimer);
+  // }, [keydownHandler]);
+
   useEffect(() => {
-    if (cursor > 0 && !isCorrect) {
+    if (!isCorrect) {
       setErrors((prev) => prev + 1);
     }
   }, [cursor, isCorrect]);
 
   return (
     <>
-      <div>
-        <div>Errors: {errors}</div>
-        <div>Total Typed: {totalTyped}</div>
-        <div>Time Passed: {timePassed}</div>
-        <div>Speed: {speed}</div>
-        <div>Accuracy: {accuracy}</div>
-        <div className="white">
-          <span className="typed">
-            {typed.split("").map((letter, index) => (
-              <span key={`${letter}_${index}`}>{letter}</span>
-            ))}
-          </span>
-          {remaining.split("").map((letter, index) => {
-            return (
-              <span
-                key={`${letter}_${index}`}
-                className={index === 0 ? (isCorrect ? "current" : "wrong") : ""}
-              >
-                {letter}
-              </span>
-            );
-          })}
-        </div>
-      </div>
+      <Container>
+        <StartModal show={showModal} setShowModal={setShowModal} />
+        <Row className="justify-content-center">
+          <Col md={10} xs={11} className="justify-content-center">
+            <Row className="align-items-end">
+              <Col className="order-md-2 d-flex justify-content-center">
+                {/* <div className="results"> */}
+                {results.map(({ title, value }) => (
+                  <div className="result">
+                    <span className="result-value">{value}</span>
+                    <span className="result-title">{title}</span>
+                  </div>
+                ))}
+                {/* </div> */}
+              </Col>
+              <Col className="order-md-1 d-flex justify-content-center align-items-center">
+                <div className="timer">
+                  <span className="result-value">{timePassed}</span>
+                  <span className="result-title">seconds</span>
+                </div>
+              </Col>
+            </Row>
+
+            {/* <div className="result">
+                <span className="result-value">{totalTyped}</span>
+                <span className="result-title">letters</span>
+              </div>
+              <div className="result">
+                <span className="result-value">{speed}</span>
+                <span className="result-title">(chars/min)</span>
+              </div>
+              <div className="result">
+                <span className="result-value">{accuracy}</span>
+                <span className="result-title">accuracy</span>
+              </div> */}
+
+            <Row>
+              <Card>
+                <div className="white">
+                  <span className="typed">
+                    {typed.split("").map((letter, index) => (
+                      <span key={`${letter}_${index}`}>{letter}</span>
+                    ))}
+                  </span>
+                  {remaining.split("").map((letter, index) => {
+                    return (
+                      <span
+                        key={`${letter}_${index}`}
+                        className={
+                          index === 0 ? (isCorrect ? "current" : "wrong") : ""
+                        }
+                      >
+                        {letter}
+                      </span>
+                    );
+                  })}
+                </div>
+              </Card>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
