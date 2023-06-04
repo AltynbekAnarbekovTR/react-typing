@@ -6,6 +6,10 @@ import Results from "./components/Results";
 import StartModal from "./components/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Card, Container } from "react-bootstrap";
+// import { transliterate } from "transliteration";
+import transliteration from "transliteration";
+
+type AppState = "start" | "run" | "finish";
 
 function App() {
   const [words, setWords] = useState<string>("");
@@ -14,10 +18,11 @@ function App() {
   const [errors, setErrors] = useState(0);
   const [timePassed, setTimePassed] = useState(0);
   const [totalTyped, setTotalTyped] = useState(0);
-  const [state, setState] = useState("start");
+  const [state, setState] = useState<AppState>("start");
   const [speed, setSpeed] = useState(0);
   const [accuracy, setAccuracy] = useState("0%");
   const [showModal, setShowModal] = useState(true);
+  const [lang, setLang] = useState("eng");
 
   const timerRef = useRef<NodeJS.Timer | null>(null);
   const remaining = words.substring(cursor);
@@ -48,7 +53,7 @@ function App() {
     if (event.code === "Space") {
       event.preventDefault();
     }
-    const englishCharacters = /^[A-Za-z0-9.,\s]+$/;
+    const englishCharacters = /^[A-Za-z0-9.,!?\s]+$/;
     if (!isKeyboardCodeAllowed(event.code)) {
       return;
     } else if (!englishCharacters.test(key)) {
@@ -103,17 +108,29 @@ function App() {
 
   useEffect(() => {
     const fetchWords = async () => {
-      const response = await fetch(
-        "https://baconipsum.com/api/?type=meat-and-filler&paras=1"
-      );
-
-      if (response.ok) {
-        const fetchedWords = await response.json();
-        const cleanedStr = fetchedWords[0].replace(/\s{2,}/g, " ");
-        setWords(cleanedStr);
-      } else {
-        throw new Error("An error occurred while fetching data from the API.");
-      }
+      //   let url = "https://baconipsum.com/api/?type=meat-and-filler&paras=1";
+      //   if (lang === "ru") {
+      //     url = "https://fish-text.ru/get?";
+      //   }
+      //   const response = await fetch(
+      //     // "https://baconipsum.com/api/?type=meat-and-filler&paras=1"
+      //     // "https://loripsum.net/api/1/russian"
+      //     // "https://randomtext.me/api/gibberish/en"
+      //     url
+      //   );
+      //   if (response.ok) {
+      //     let fetchedWords = await response.json();
+      //     if (lang === "eng") {
+      //       fetchedWords = fetchedWords[0].replace(/\s{2,}/g, " ");
+      //     }
+      //     if (lang === "ru") {
+      //       fetchedWords = fetchedWords.text;
+      //     }
+      //     setWords(fetchedWords);
+      //   } else {
+      //     throw new Error("An error occurred while fetching data from the API.");
+      //   }
+      setWords("Hello!");
     };
     fetchWords();
   }, []);
@@ -140,11 +157,11 @@ function App() {
     return () => window.removeEventListener("keydown", keydownHandler);
   }, [keydownHandler]);
 
-  // useEffect(() => {
-  //   window.addEventListener("keydown", startTimer);
-
-  //   return () => window.removeEventListener("keydown", startTimer);
-  // }, [keydownHandler]);
+  useEffect(() => {
+    if (totalTyped === words.length) {
+      setShowModal(true);
+    }
+  }, [totalTyped]);
 
   useEffect(() => {
     if (!isCorrect) {
@@ -154,20 +171,27 @@ function App() {
 
   return (
     <>
-      <Container>
-        <StartModal show={showModal} setShowModal={setShowModal} />
+      <Container
+        // className="d-flex align-items-center justify-content-center vh-100"
+        className="position-absolute top-50 start-50 container"
+      >
+        <StartModal
+          show={showModal}
+          setShowModal={setShowModal}
+          setLang={setLang}
+          lang={lang}
+        />
         <Row className="justify-content-center">
           <Col md={10} xs={11} className="justify-content-center">
-            <Row className="align-items-end">
+            <Row className="align-items-end mb-10">
               <Col className="order-md-2 d-flex justify-content-center">
                 {/* <div className="results"> */}
                 {results.map(({ title, value }) => (
-                  <div className="result">
+                  <div key={title + value} className="result">
                     <span className="result-value">{value}</span>
                     <span className="result-title">{title}</span>
                   </div>
                 ))}
-                {/* </div> */}
               </Col>
               <Col className="order-md-1 d-flex justify-content-center align-items-center">
                 <div className="timer">
@@ -177,20 +201,7 @@ function App() {
               </Col>
             </Row>
 
-            {/* <div className="result">
-                <span className="result-value">{totalTyped}</span>
-                <span className="result-title">letters</span>
-              </div>
-              <div className="result">
-                <span className="result-value">{speed}</span>
-                <span className="result-title">(chars/min)</span>
-              </div>
-              <div className="result">
-                <span className="result-value">{accuracy}</span>
-                <span className="result-title">accuracy</span>
-              </div> */}
-
-            <Row>
+            <Row className="mt-4">
               <Card>
                 <div className="white">
                   <span className="typed">
