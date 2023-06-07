@@ -171,6 +171,9 @@ const wordsSlice = createSlice({
     setParas: (state, action: PayloadAction<string>) => {
       state.paras = action.payload;
     },
+    stopTimer: (state) => {
+      clearInterval(state.timer.timerRef!);
+    },
   },
   extraReducers: (builder) => {
     builder

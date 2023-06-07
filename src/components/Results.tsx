@@ -54,7 +54,7 @@ const Results = () => {
   const speed = useAppSelector((state) => state.speed);
   const accuracy = useAppSelector((state) => state.accuracy);
   const timePassed = useAppSelector((state) => state.timer.timePassed);
-  let timerRef = useAppSelector((state) => state.timer.timerRef);
+  // let timerRef = useAppSelector((state) => state.timer.timerRef);
   const phase = useAppSelector((state) => state.phase);
   const typed = useAppSelector((state) => state.typed);
   // const timerRef = useRef<NodeJS.Timer | null>(null);

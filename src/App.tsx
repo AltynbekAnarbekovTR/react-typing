@@ -118,17 +118,17 @@ function App() {
   //   // setWords("Hello!");
   // };
 
-  const resetApp = () => {
-    setTotalTyped(0);
-    setErrors(0);
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-    dispatch(fetchEnglishWords());
-    setCursor(0);
-    setTimePassed(0);
-    setSpeed(0);
-  };
+  // const resetApp = () => {
+  //   setTotalTyped(0);
+  //   setErrors(0);
+  //   if (timerRef.current) {
+  //     clearInterval(timerRef.current);
+  //   }
+  //   dispatch(fetchEnglishWords());
+  //   setCursor(0);
+  //   setTimePassed(0);
+  //   setSpeed(0);
+  // };
 
   // useEffect(() => {
   //   if (state === "start") {

@@ -14,6 +14,7 @@ const Text = () => {
   const paras = useAppSelector((state) => state.paras);
   const lang = useAppSelector((state) => state.lang);
   const isLoading = useAppSelector((state) => state.isLoading);
+  let timerRef = useAppSelector((state) => state.timer.timerRef);
 
   const dispatch = useAppDispatch();
   // const typed = dispatch(wordsActions.getTyped);
@@ -28,7 +29,9 @@ const Text = () => {
   // }
 
   const keydownHandler = (event: KeyboardEvent) => {
-    if (phase !== "configure") {
+    console.log("phase: ", phase);
+
+    if (phase !== "configure" && phase !== "finish") {
       const { key, code } = event;
 
       if (event.code === "Space") {
@@ -90,6 +93,8 @@ const Text = () => {
     dispatch(wordsActions.setRemaining());
     if (words.length > 0 && cursor === words.length) {
       dispatch(wordsActions.setState("finish"));
+      dispatch(wordsActions.setShowModal(true));
+      dispatch(wordsActions.stopTimer());
     }
   }, [cursor, words]);
 
