@@ -1,4 +1,3 @@
-import React from "react";
 import Results from "./components/Results/Results";
 import StartModal from "./components/Modal/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,9 +15,8 @@ function App() {
         <StartModal />
         <Results />
         <Text />
-
         <Button
-          className="mt-2 mb-3"
+          className="mt-2 fs-5"
           onClick={() => {
             dispatch(wordsActions.resetApp());
           }}

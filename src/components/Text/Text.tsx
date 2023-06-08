@@ -94,7 +94,7 @@ const Text = (): JSX.Element => {
     );
 
   return (
-    <Row className="justify-content-center w-100">
+    <Row className={`justify-content-center w-100 ${styles.text}`}>
       <Col md={10} className="justify-content-center">
         <Row className="mt-4">
           <Card>
