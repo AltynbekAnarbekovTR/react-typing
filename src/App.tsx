@@ -16,7 +16,7 @@ function App() {
         <Results />
         <Text />
         <Button
-          className="mt-2 fs-5"
+          className="mt-3 fs-5"
           onClick={() => {
             dispatch(wordsActions.resetApp());
           }}
