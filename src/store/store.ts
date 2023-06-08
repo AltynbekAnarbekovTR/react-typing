@@ -25,7 +25,9 @@ export const fetchRussianWords = createAsyncThunk(
       `https://fish-text.ru/get?type=paragraph&number=${parasNum}`
     );
     const data = await response.json();
+
     let cleanedText = data.text.replace(/\\./g, " ");
+    cleanedText = cleanedText.replace(/\s{2,}/g, " ");
     cleanedText = cleanedText.replace(/\u2013|\u2014/g, "-");
     return cleanedText;
   }

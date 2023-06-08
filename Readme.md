@@ -18,8 +18,8 @@ A react application to practice your typing skills. The app was built using:
 
 At the start of the app you can:
 
-- choose a language of text you want to type.
-- choose how large text will be
+- select the language of the text you want to type.
+- select text size
 
 While typing:
 
