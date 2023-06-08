@@ -20,7 +20,7 @@ const Results = () => {
     { title: "errors", value: errors },
     { title: "characters", value: totalTyped },
     { title: "chars/min", value: speed },
-    { title: "accuracy", value: accuracy },
+    { title: "accuracy", value: accuracy + "%" },
   ];
   const isStarting = phase === "start" && cursor > 0;
 
