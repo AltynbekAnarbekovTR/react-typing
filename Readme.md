@@ -1,8 +1,8 @@
 # React typing app
 
 <p float="left">
-  <img src="https://github.com/AnarbekovAlt/react-typing/assets/62358513/c7eacafa-9beb-436e-9b2a-279fcb83e093" width="400" height="175" />
-  <img src="https://github.com/AnarbekovAlt/react-typing/assets/62358513/5ddb7a26-1a57-4202-8205-833358168392" width="400" height="175" />
+  <img src="https://github.com/AnarbekovAlt/react-typing/assets/62358513/c7eacafa-9beb-436e-9b2a-279fcb83e093" width="500" />
+  <img src="https://github.com/AnarbekovAlt/react-typing/assets/62358513/5ddb7a26-1a57-4202-8205-833358168392" width="500" />
 </p>
 
 A react application to practice your typing skills. The app was built using:
