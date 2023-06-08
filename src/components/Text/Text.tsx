@@ -98,7 +98,7 @@ const Text = (): JSX.Element => {
       <Col md={10} className="justify-content-center">
         <Row className="mt-4">
           <Card>
-            <div className="p-3 p-md-4 fs-5">
+            <div className="pt-2 p-md-4 fs-5">
               {isLoading && (
                 <div className="w-100 h-100 ">
                   <div className="position-absolute top-50 start-50 translate-middle">

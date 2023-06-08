@@ -1,6 +1,6 @@
 import React from "react";
 import Results from "./components/Results/Results";
-import StartModal from "./components/Modal/StartModal";
+import StartModal from "./components/Modal/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Button } from "react-bootstrap";
 import { wordsActions } from "./store/store";
