@@ -29,5 +29,7 @@ After completing typing:
 
 ## How to run
 
-- npm i
-- npm run dev
+```bash
+npm i
+npm run dev
+```
