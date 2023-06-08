@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import {
   Dropdown,
   DropdownButton,
@@ -17,24 +16,7 @@ import {
   wordsActions,
 } from "../../store/store";
 
-function StartModal({
-  // show,
-  // setShowModal,
-  // lang,
-  setLang,
-  state,
-}: {
-  // show: boolean;
-  // setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  // lang: string;
-  setLang: React.Dispatch<React.SetStateAction<string>>;
-  state: string;
-}) {
-  // const [numParagraphs, setNumParagraphs] = useState(1);
-  // const [lang, setLang] = useState("english");
-  // const [checked, setChecked] = useState(false);
-  // const [, setRadioValue] = useState("1");
-  // const [paras, setParas] = useState("1");
+function StartModal() {
   const paras = useAppSelector((state) => state.paras);
   const showModal = useAppSelector((state) => state.showModal);
   const lang = useAppSelector((state) => state.lang);
@@ -78,11 +60,8 @@ function StartModal({
         </Modal.Body>
         <Modal.Footer>
           <Button
-            // disabled={totalTyped <= 0}
             className="mt-2"
             onClick={() => {
-              // setState("start");
-              // clearInterval(timerRef);
               dispatch(wordsActions.resetApp());
             }}
           >
@@ -108,12 +87,9 @@ function StartModal({
           <Modal.Body>
             <Form.Group>
               <div className="d-flex align-items-end gap-3">
-                {/* <Col> */}
                 <Form.Label className="d-inline mr-2">
                   Number of Paragraphs:
                 </Form.Label>
-                {/* </Col> */}
-                {/* <Col className="text-start"> */}
                 <DropdownButton
                   className="d-inline ml-2"
                   variant="primary"
@@ -130,7 +106,6 @@ function StartModal({
                     </Dropdown.Item>
                   ))}
                 </DropdownButton>
-                {/* </Col> */}
               </div>
             </Form.Group>
             <Form.Group>
@@ -141,14 +116,11 @@ function StartModal({
                     key={idx}
                     id={`radio-${idx}`}
                     type="radio"
-                    // variant={idx % 2 ? "outline-success" : "outline-danger"}
                     variant="outline-primary"
                     name="radio"
                     value={radio.value}
                     checked={lang === radio.value}
-                    // onChange={(e) => setRadioValue(e.currentTarget.value)}
                     onChange={(e) => {
-                      // setLang(e.currentTarget.value)
                       dispatch(wordsActions.setLang(e.currentTarget.value));
                     }}
                   >
@@ -162,7 +134,6 @@ function StartModal({
             <Button
               variant="primary"
               onClick={() => {
-                // setShowModal(false);
                 dispatch(wordsActions.setState("start"));
                 dispatch(wordsActions.setShowModal(false));
                 if (lang === "eng") {
@@ -178,6 +149,7 @@ function StartModal({
         </Modal>
       </>
     );
+  return null;
 }
 
 export default StartModal;

@@ -3,37 +3,31 @@ import {
   createSlice,
   createAsyncThunk,
   PayloadAction,
+  createSelector,
 } from "@reduxjs/toolkit";
 
 export const fetchEnglishWords = createAsyncThunk(
   "words/fetchEnglishWords",
   async (parasNum: string = "1") => {
-    // const response = await fetch(
-    //   // `https://baconipsum.com/api/?type=all-meat&paras=5`
-    //   // `https://baconipsum.com/api/?type=meat-and-filler&paras=1`
-    //   `https://baconipsum.com/api/?type=meat-and-filler&paras=${parasNum}`
-    // );
-    // let data = await response.json();
-
-    // // data = data[0].replace(/\s{2,}/g, " ");
-    // data = data.join("").replace(/\s{2,}/g, " ");
-    // return data;
-    return "Hello";
+    const response = await fetch(
+      `https://baconipsum.com/api/?type=meat-and-filler&paras=${parasNum}`
+    );
+    let data = await response.json();
+    data = data.join("").replace(/\s{2,}/g, " ");
+    return data;
   }
 );
 
-// Async thunk to fetch Russian words
 export const fetchRussianWords = createAsyncThunk(
   "words/fetchRussianWords",
   async (parasNum: string = "1") => {
     const response = await fetch(
       `https://fish-text.ru/get?type=paragraph&number=${parasNum}`
     );
-    let data = await response.json();
-    let text = data.text;
-    text = text.replace(/\n\n/g, " ");
-    // console.log(data.text);
-    return data.text;
+    const data = await response.json();
+    let cleanedText = data.text.replace(/\\./g, " ");
+    cleanedText = cleanedText.replace(/\u2013|\u2014/g, "-");
+    return cleanedText;
   }
 );
 
@@ -52,7 +46,6 @@ interface AppSliceState {
   totalTyped: number;
   phase: AppState;
   speed: number;
-  // accuracy: string;
   accuracy: number;
   showModal: boolean;
   lang: string;
@@ -72,7 +65,6 @@ const initialState: AppSliceState = {
   totalTyped: 0,
   phase: "configure",
   speed: 0,
-  // accuracy: "0%",
   accuracy: 0,
   showModal: true,
   lang: "eng",
@@ -91,57 +83,28 @@ const wordsSlice = createSlice({
   name: "appSlice",
   initialState,
   reducers: {
-    getTyped: (state) => {
-      state.typed = state.words.substring(0, state.cursor);
-    },
-    setTyped: (state) => {
-      // console.log("state.cursor: ", state.cursor);
-      // console.log(
-      //   "state.words.substring(0, state.cursor);: ",
-      //   state.words.substring(0, state.cursor)
-      // );
-      // const subWords = state.words;
-      state.typed = state.words.substring(0, state.cursor);
-    },
-    getRemaining: (state) => {
-      state.typed = state.words.substring(state.cursor, state.words.length - 1);
-    },
-    setRemaining: (state) => {
-      state.remaining = state.words.substring(state.cursor);
-      // state.remaining = action.payload;
-    },
     resetApp: (state) => {
       clearInterval(state.timer.timerRef!);
+      const wordsCopy = state.words;
+
       return {
         ...initialState,
-        words: state.words,
+        words: wordsCopy,
       };
     },
     setWords: (state, action: PayloadAction<string>) => {
       state.words = action.payload;
     },
-    setCursor: (
-      state
-      // action: PayloadAction<number>
-    ) => {
-      // state.cursor = action.payload;
+    setCursor: (state) => {
       state.cursor += 1;
     },
     setIsCorrect: (state, action: PayloadAction<boolean>) => {
       state.isCorrect = action.payload;
     },
-    setErrors: (
-      state
-      // action: PayloadAction<number>
-    ) => {
-      // state.errors = action.payload;
+    setErrors: (state) => {
       state.errors += 1;
     },
-    setTotalTyped: (
-      state
-      // action: PayloadAction<number>
-    ) => {
-      // state.totalTyped = action.payload;
+    setTotalTyped: (state) => {
       state.totalTyped += 1;
     },
     setState: (state, action: PayloadAction<AppState>) => {
@@ -185,9 +148,10 @@ const wordsSlice = createSlice({
         state.isLoading = false;
         state.words = action.payload;
       })
-      .addCase(fetchEnglishWords.rejected, (state, action) => {
+      .addCase(fetchEnglishWords.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.error.message ?? "Failed to fetch English words.";
+
+        state.error = "Failed to fetch English words.";
       })
       .addCase(fetchRussianWords.pending, (state) => {
         state.isLoading = true;
@@ -197,12 +161,29 @@ const wordsSlice = createSlice({
         state.isLoading = false;
         state.words = action.payload;
       })
-      .addCase(fetchRussianWords.rejected, (state, action) => {
+      .addCase(fetchRussianWords.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.error.message ?? "Failed to fetch Russian words.";
+        state.error = "Не удалось загрузить слова для ввода.";
       });
   },
 });
+
+const selectWords = (state: RootState) => state.words;
+const selectCursor = (state: RootState) => state.cursor;
+
+export const selectTypedChars = createSelector(
+  [selectWords, selectCursor],
+  (words, cursor) => {
+    return words.substring(0, cursor);
+  }
+);
+
+export const selectRemainingChars = createSelector(
+  [selectWords, selectCursor],
+  (words, cursor) => {
+    return words.substring(cursor, words.length - 1);
+  }
+);
 
 const store = configureStore({ reducer: wordsSlice.reducer });
 
