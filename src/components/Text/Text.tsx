@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Alert, Card, Col, Row } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedStoreHooks";
 import {
-  fetchEnglishWords,
+  fetchRussianWords,
   selectRemainingChars,
   selectTypedChars,
   wordsActions,
@@ -68,7 +68,7 @@ const Text = (): JSX.Element => {
 
   useEffect(() => {
     if (words.length <= 0) {
-      dispatch(fetchEnglishWords());
+      dispatch(fetchRussianWords());
     }
   }, [lang]);
 

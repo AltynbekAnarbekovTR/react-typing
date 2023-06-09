@@ -69,7 +69,7 @@ const initialState: AppSliceState = {
   speed: 0,
   accuracy: 0,
   showModal: true,
-  lang: "eng",
+  lang: "ru",
   timer: {
     timePassed: 0,
     timerRef: null,
