@@ -2,7 +2,7 @@
 
 <p float="left">
   <img src="https://github.com/AnarbekovAlt/react-typing/assets/62358513/c7eacafa-9beb-436e-9b2a-279fcb83e093" width="400" height="175"/>
-  <img src="https://github.com/AnarbekovAlt/react-typing/assets/62358513/5ddb7a26-1a57-4202-8205-833358168392" width="400" height="175"/>
+  <img src="https://github.com/AnarbekovAlt/react-typing/assets/62358513/5cec9fec-ba75-4cc4-871c-caf8606c5d5a" width="400" height="175"/>
 </p>
 
 **Warning: Bacon Ipsum API may not work correctly in Russia. If English words are not being fetched, make sure you have VPN enabled, or use Russian words option.**
